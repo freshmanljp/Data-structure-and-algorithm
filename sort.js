@@ -88,43 +88,55 @@ function ArrayList () {
   }
   // 快速排序算法
   ArrayList.prototype.quicklySort = function () {
-    this.quick(0, this.array.length - 1)
+    // this.quick_1(0, this.array.length - 1)
+    this.quick_2(0, this.array.length - 1)
     console.log('over')
   }
-  // // 快速排序主方法，用于调用快速排序递归函数
-  // ArrayList.prototype.quick = function (left, right) {
-  //   if (this.array.length <= 1) return
-  //   // 确定枢纽的位置
-  //   var index = this.partition(left, right)
-  //   // 左右待排序数组递归quick排序
-  //   if (left < index - 1) {
-  //     this.quick(left, index - 1)
-  //   }
-  //   if (index < right) {
-  //     this.quick(index, right)
-  //   }
-  // }
-  // ArrayList.prototype.partition = function (left, right) {
-  //   var pivot = this.array[Math.floor((left + right) / 2)]
-  //   var i = left
-  //   var j = right
-  //   while (i <= j) {
-  //     while (this.array[i] < pivot) {
-  //       i++
-  //     }
-  //     while (this.array[j] > pivot) {
-  //       j--
-  //     }
-  //     if (i < j) {
-  //       this.swap(i, j)
-  //       // i++
-  //       // j--
-  //     }
-  //   }
-  //   return i
-  // }
+  // 改进的快速排序的递归方法
+  ArrayList.prototype.quick_2 = function (left, right) {
+    if (this.array.length <= 1) return
+
+    // 确定枢纽的位置
+    var index = this.partition(left, right)
+    // 左右待排序数组递归quick排序
+    if (left < index - 1) {
+      this.quick_2(left, index - 1)
+    }
+    if (index + 1 < right) {
+      this.quick_2(index + 1, right)
+    }
+  }
+  // 确定主元位置的方法
+  ArrayList.prototype.partition = function (left, right) {
+    var pivot_num = Math.floor((left + right) / 2)
+    var pivot = this.array[pivot_num]
+    console.log('pivot:', pivot)
+    var i = left
+    var j = right
+    while (i < j) {
+      while (this.array[i] <= pivot && i < j) {
+        i++
+        console.log('i:', i)
+      }
+      while (this.array[j] >= pivot && i < j) {
+        j--
+        console.log('j:', j)
+      }
+      if (i < j) {
+        this.swap(i, j)
+        console.log(this.toString())
+        i++
+        console.log('i:', i)
+        j--
+        console.log('j:', j)
+      }
+    }
+    this.swap(i, pivot_num)
+    console.log('*****', this.toString())
+    return i
+  }
   // 快速排序的递归方法
-  ArrayList.prototype.quick = function (left, right) {
+  ArrayList.prototype.quick_1 = function (left, right) {
     // 递归函数的终止条件
     if (left < right) {
       var i = left
@@ -147,8 +159,8 @@ function ArrayList () {
         }
       }
       this.array[i] = pivor
-      this.quick(left, i-1)
-      this.quick(i+1, right)
+      this.quick_1(left, i-1)
+      this.quick_1(i+1, right)
     }
   }
 }
@@ -159,9 +171,9 @@ var list = new ArrayList()
 list.insert(34)
 list.insert(334)
 list.insert(234)
+list.insert(55)
 list.insert(14)
 list.insert(36)
-list.insert(55)
 list.insert(12)
 list.insert(456)
 list.insert(1)
