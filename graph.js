@@ -66,14 +66,19 @@ function Graph () {
   }
   // dfs递归搜索函数
   Graph.prototype.dfs_search = function (initVertex, handle, color) {
+    // 1. 设置初始点的状态为已遍历
     color[initVertex] = 'grey'
+    // 2. 运行处理节点函数
     handle(initVertex)
+    // 3. 取出处理顶点的连接顶点
     var vList = this.edges.get(initVertex)
+    // 4. 对没有遍历过的连接顶点进行递归dfs函数操作
     for (var i = 0;i < vList.length;i++) {
       if (color[vList[i]] === 'white') {
         this.dfs_search(vList[i], handle, color)
       }
     }
+    // 5.设置初始点的状态为已处理
     color[initVertex] = 'black'
   }
 }
